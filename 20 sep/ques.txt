@@ -1,0 +1,2 @@
+Q1. Implement polynomial addition using linked lists.
+Q2. Overload + and = operators on linked lists and concatenate 2 linked lists.

@@ -1,0 +1,462 @@
+#include <iostream>
+using namespace std;
+
+template <class T>
+class node
+{
+public:
+    T info;
+    node<T> *next;
+    node(T el, node<T> *ptr = NULL)
+    {
+        info = el;
+        next = ptr;
+    }
+};
+
+template <class T>
+class Clist
+{
+private:
+    node<T> *head = NULL;
+    node<T> *tail = NULL;
+
+public:
+    Clist()
+    {
+        head = NULL;
+    }
+    ~Clist();
+    bool isempty();
+    void InsertAtHead(T el);
+    void InsertionAtPoint(T el, int pos);
+    void InsertAtTail(T el);
+    void delete_head();
+    void delete_pos(int pos);
+    void delete_tail();
+    node<T> *search(T el);
+    void concat(Clist<T> &s1 , Clist<T> &s2);
+    void delete_val(T el);
+    void display();
+    void reverse();
+    int count();
+};
+
+template <class T>
+bool Clist<T>::isempty()
+{
+    return (head == NULL);
+}
+
+template <class T>
+Clist<T>::~Clist()
+{
+    node<T> *p;
+    while (!isempty())
+    {
+        p = tail->next;
+        delete head;
+        head = p;
+    }
+}
+
+template <class T>
+void Clist<T>::InsertAtHead(T el)
+{
+    node<T> *n = new node<T>(el);
+    if (isempty())
+    {
+        head = tail = n;
+        n->next = tail;
+    }
+    else
+    {
+        tail->next = n;
+        n->next = head;
+        head = n;
+    }
+}
+
+template <class T>
+void Clist<T>::InsertionAtPoint(T el, int pos)
+{
+    if (pos > count() || pos < 0)
+    {
+        cout << "Invalid position!!!" << endl;
+        return;
+    }
+    if (pos == 0)
+    {
+        InsertAtHead(el);
+    }
+    else if (pos == count())
+    {
+        InsertAtTail(el);
+    }
+    else
+    {
+        node<T> *temp = head;
+        for (int i = 1; i < pos; i++)
+        {
+            temp = temp->next;
+        }
+        temp->next = new node<T>(el, temp->next);
+    }
+}
+
+template <class T>
+void Clist<T>::InsertAtTail(T el)
+{
+    if (isempty())
+    {
+        InsertAtHead(el);
+        return;
+    }
+    tail->next = new node<T>(el, head);
+    tail = tail->next;
+}
+
+template <class T>
+void Clist<T>::delete_head()
+{
+    if (isempty())
+    {
+        cout << "The list is already empty !!!" << endl;
+        return;
+    }
+    if (count() == 1)
+    {
+        node<T> *todelete = head;
+        head = tail = NULL;
+        delete todelete;
+    }
+    else
+    {
+        node<T> *todelete = head;
+        head = head->next;
+        tail->next = head;
+        delete todelete;
+    }
+}
+
+template <class T>
+void Clist<T>::delete_pos(int pos)
+{
+    if (isempty())
+    {
+        cout << "The list is already empty !!!" << endl;
+        return;
+    }
+    if (pos <= 0 && pos > count())
+    {
+        cout << "Invalid position !!!" << endl;
+        return;
+    }
+    if (pos == 1)
+    {
+        delete_head();
+    }
+    else if (pos == count())
+    {
+        delete_tail();
+    }
+    else
+    {
+        node<T> *temp = head;
+        for (int i = 1; i < pos; i++)
+        {
+            temp = temp->next;
+        }
+        node<T> *todelete = temp->next;
+        temp->next = temp->next;
+        delete todelete;
+    }
+}
+
+template <class T>
+void Clist<T>::delete_tail()
+{
+    if (isempty())
+    {
+        cout << "The list is already empty !!!" << endl;
+        return;
+    }
+    if (count() == 1)
+    {
+        delete_head();
+    }
+    else
+    {
+        node<T> *temp = head;
+        while (temp->next != tail)
+        {
+            temp = temp->next;
+        }
+        tail = temp;
+        temp = temp->next;
+        tail->next = head;
+        delete temp;
+    }
+}
+
+template <class T>
+node<T> *Clist<T>::search(T el)
+{
+    node<T> *temp = head;
+    if (temp->info == el)
+    {
+        return temp;
+    }
+    temp = temp->next;
+    while (temp != head)
+    {
+        if (temp->info == el)
+        {
+            return temp;
+        }
+        temp = temp->next;
+    }
+    temp = NULL;
+    return temp;
+}
+
+template <class T>
+void Clist<T>::concat(Clist<T> &s1 , Clist<T> &s2)
+{
+    node<T>* temp=s2.head;
+    InsertAtTail(temp->info);
+    temp=temp->next;
+    while (temp!=s2.head)
+    {
+        InsertAtTail(temp->info);
+        temp=temp->next;
+
+        if(temp==s2.tail)
+            tail=temp;
+    }
+}
+
+template <class T>
+void Clist<T>::delete_val(T val)
+{
+    node<T> *temp = head;
+    node<T> *todelete = NULL;
+    if (head != NULL)
+    {
+        if (temp->info == val)
+        {
+            delete_head();
+        }
+        else
+        {
+            while (temp->next != head)
+            {
+                if (temp->next->info == val)
+                {
+                    todelete = temp->next;
+                    temp->next = temp->next->next;
+                    break;
+                }
+                temp = temp->next;
+            }
+        }
+    }
+    else
+    {
+        cout << "The list is already empty !!! " << endl;
+    }
+    delete todelete;
+}
+
+template <class T>
+void Clist<T>::display()
+{
+    if (head == NULL)
+    {
+        cout << "NULL" << endl;
+        return;
+    }
+    node<T> *temp = head;
+    cout << temp->info << " ->";
+    temp = temp->next;
+    while (temp->next != head)
+    {
+        cout << temp->info << " ->";
+        temp = temp->next;
+    }
+    cout << temp->info<<endl;
+}
+
+template <class T>
+void Clist<T>::reverse()
+{
+    if (isempty())
+    {
+        cout << "The list is empty!!! " << endl;
+    }
+    else
+    {
+        node<T> *cur = head;
+        node<T> *prev = tail;
+        node<T> *nxt = NULL;
+
+        nxt = cur->next;
+        cur->next = tail;
+        prev = cur;
+        cur = nxt;
+        while (cur != head)
+        {
+            nxt = cur->next;
+            cur->next = prev;
+            prev = cur;
+            cur = nxt;
+        }
+        head = prev;
+        tail = nxt;
+    }
+}
+
+template <class T>
+int Clist<T>::count()
+{
+    int c = 1;
+    node<T> *temp;
+    temp = head;
+    if (head == NULL)
+    {
+        return 0;
+    }
+    temp = temp->next;
+    while (temp != head)
+    {
+        temp = temp->next;
+        c++;
+    }
+    return c;
+}
+
+//Main function
+int main()
+{
+    Clist<int> li;
+    Clist<int> li2;
+    int choice;
+    do
+    {
+        int ele, pos;
+        cout << "\n---------------------MENU--------------------\n" << endl;
+        cout << "1) Add element to the head" << endl;
+        cout << "2) Add element at the position" << endl;
+        cout << "3) Add element to the tail" << endl;
+        cout << "4) Delete element from head" << endl;
+        cout << "5) Delete an element from ith position" << endl;
+        cout << "6) Delete element from tail" << endl;
+        cout << "7) Search for a node" << endl;
+        cout << "8) Concat two lists" << endl;
+        cout << "9) Delete element of specific value" << endl;
+        cout << "10) Display the list" << endl;
+        cout << "11) Reverse the list" << endl;
+        cout << "12) Count number of nodes" << endl;
+        cout << "13) Exit" << endl;
+        cout << "Enter your choice : ";
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            cout << "Enter Element : ";
+            cin >> ele;
+            li.InsertAtHead(ele);
+            break;
+
+        case 2:
+            cout << "Enter the position : ";
+            cin >> pos;
+            cout << endl;
+            cout << "Enter Element : ";
+            cin >> ele;
+            li.InsertionAtPoint(ele, pos);
+            break;
+
+        case 3:
+            cout << "Enter Element : ";
+            cin >> ele;
+            li.InsertAtTail(ele);
+            break;
+
+        case 4:
+            li.delete_head();
+            break;
+
+        case 5:
+            cout << "Enter position : ";
+            cin >> pos;
+            li.delete_pos(pos);
+            break;
+
+        case 6:
+            li.delete_tail();
+            break;
+
+        case 7:
+            cout << "Enter element to be searched for : ";
+            cin >> ele;
+            if (li.search(ele) == NULL)
+            {
+                cout << "The element is not present!!!" << endl;
+            }
+            else
+                cout << li.search(ele)->info << " is present " << endl;
+            break;
+
+        case 8:
+            int n;
+            cout << "Enter the number of elements in list 2 : ";
+            cin >> n;
+            for (int i = 0; i < n; i++)
+            {
+                int el;
+                cout << "Enter " << i + 1 << " element : ";
+                cin >> el;
+                li2.InsertAtTail(el);
+            }
+            cout << "Your First list is : ";
+            li.display();
+            cout << "Your second list is : ";
+            li2.display();
+            li.concat(li , li2);
+            cout << "Your concated list is ";
+            li.display();
+            break;
+
+        case 9:
+            cout << "Enter element : ";
+            cin >> ele;
+            li.delete_val(ele);
+            li.display();
+            break;
+
+        case 10:
+            li.display();
+            break;
+
+        case 11:
+            cout << "Original list : ";
+            li.display();
+            li.reverse();
+            cout << "List after reversing : ";
+            li.display();
+            break;
+
+        case 12:
+            cout << "Number of elements are : " << li.count() << endl;
+            break;
+
+        case 13:
+            exit(0);
+
+        default:
+            break;
+        }
+    } while (choice != 13);
+    return 0;
+}

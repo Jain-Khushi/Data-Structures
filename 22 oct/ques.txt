@@ -1,0 +1,7 @@
+Write a menu driven program that asks the user the following options
+a) Diagonal Matrix
+b) Tridiagonal Matrix
+c) Upper Triangular Matrix
+d) Lower Triangular Matrix
+e) Symmetric Matrix
+Each matrix class should be included as a separate header file.

@@ -1,0 +1,2 @@
+Q1. WAP to implement evaluation of a postfix expression.
+Q2. WAP to convert an infix expression to postfix expression.

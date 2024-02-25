@@ -1,0 +1,14 @@
+Write a program to implement singly linked list which supports the following operations:
+(i) Insert an element x at the beginning of the linked list
+(ii) Insert an element x at position ith in the linked list
+(iii) Insert an element x at the end of the linked list
+(iv) Remove an element from the beginning of the linked list
+(v) Remove an element from ith position in the linked list.
+(vi) Remove an element from the end of the linked list
+(vii) Search for an element x in the linked list and return its pointer
+(viii) Concatenate two linked lists.
+(ix) Remove an element with a specific value.
+(x) Display the linked list.
+(xi) Reverse the list.
+
+(xii) Count the number of elements in the linked list.

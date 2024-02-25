@@ -1,0 +1,6 @@
+Menu driven program to perform all supported operations on the following containers using STL:
+(a) Vectors
+(b) Lists
+(c) Queues
+(d) Dequeues
+(e) Stacks

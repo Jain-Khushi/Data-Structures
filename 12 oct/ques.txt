@@ -1,0 +1,3 @@
+Q1. Implement queues using circular array.
+Q2. Implement queues using circular linked list.
+Q3. Implement double ended queues using doubly linked list.

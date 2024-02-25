@@ -1,0 +1,1 @@
+Implement Ordered Linked List and Linked Stack Programs as discussed in class.
